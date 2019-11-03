@@ -1,5 +1,5 @@
 var express = require("express");
-// var logger = require("morgan");
+var logger = require("morgan");
 var mongoose = require("mongoose");
 var exphbs  = require('express-handlebars');
 
@@ -24,7 +24,7 @@ app.set('view engine', 'handlebars');
 // Configure middleware
 
 // Use morgan logger for logging requests
-// app.use(logger("dev"));
+app.use(logger("dev"));
 // Parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -32,14 +32,25 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Define our routes
-app.use('/api', require('./routes/apiRoutes')(db));
+// app.use('/api', require('./routes/apiRoutes')(db));
 app.use(require('./routes/htmlRoutes')(db));
 
 // Connect to the Mongo DB
+mongoose.connect("mongodb://localhost/populatedb", { useNewUrlParser: true });
+
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+// mongoose.connect(MONGODB_URI);
 
-mongoose.connect(MONGODB_URI);
+var con = mongoose.connection;
+con.on('error', console.error.bind(console, 'connection error:'));
+con.once('open', function callback () {
+  console.log("Database Connected, Ready State: " + mongoose.connection.readyState);
+});
+
+// exports.test = function(req,res) {
+//   res.render('test');
+// };
 
 // Routes
 
