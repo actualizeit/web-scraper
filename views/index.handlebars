@@ -1,6 +1,66 @@
 {{> nav/nav-block}}
 
+  <head>
+    <meta charset="UTF-8">
+    <title>Scraping With Mongoose</title>
+    <style>
+      body { background-color: #F2F6D0 }
+      #wrapper {
+        width: 960px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 5%;
+      }
+      #articles {
+        display: inline-block;
+        overflow: auto;
+        width: 60%;
+        height: 700px;
+      }
+      #notes {
+        float: right;
+        width: 30%;
+      }
+      textarea, input {
+        display: block;
+        width: 100%;
+        background-color: #FCF5C7;
+      }
+      input {
+        height: 36px;
+        font-size: 24px;
+      }
+      textarea {
+        height: 200px;
+        font-size: 18px;
+      }
+    </style>
+  </head>
 
+  <br>
+<div class="container">
+    {{!-- Row 1 Articles --}}
+    {{#each articles}}
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 toEat">
+                <div class="card" >
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a class="titleloc" href={{this.link}}>{{this.title}}</a>
+                    </h5>
+                    <p class="card-text">{{this.summary}}</p>
+                    <button type="button" class="btn btn-secondary savebtn" data-id={{this._id}}>Save</button>
+                </div>
+                </div>        
+                
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <br>
+    {{/each}}
+</div>
+<br>
 
     <div id="wrapper">
       <h1>Note Scraper</h1>

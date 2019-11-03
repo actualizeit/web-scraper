@@ -1,12 +1,11 @@
 const router = require('express').Router();
+const db = require("../models");
 
-module.exports = (db) => {
-  // Load register page
-  router.get('/home', (req, res) => {
-      console.log("index")
-      res.render('index');
-    }
-  );
-
+module.exports = {
+  // Load home page
+  home: function(req, res) {
+    console.log("index")
+    res.render('index');
   return router;
+    }
 };
