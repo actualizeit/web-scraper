@@ -1,5 +1,4 @@
 // Grab the articles as a json
-console.log("getstuff2");
 $.getJSON("/articles", function(data) {
   console.log("getstuff");
   // For each one
