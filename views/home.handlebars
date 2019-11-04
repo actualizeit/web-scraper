@@ -36,9 +36,12 @@
       }
     </style>
   </head>
+    <br>  
+    <br>  
+    <br>
   <br>
 <div class="container">
-    {{#each articles}}
+    {{#each dbArticle}}
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
@@ -47,7 +50,7 @@
                     <h5 class="card-title">
                         <a class="titleloc" href={{this.link}}>{{this.title}}</a>
                     </h5>
-                    <p class="card-text">{{this.summary}}</p>
+                    {{!-- <p class="card-text">{{this.summary}}</p> --}}
                     <button type="button" class="btn btn-secondary savebtn" data-id={{this._id}}>Save</button>
                 </div>
                 </div>        

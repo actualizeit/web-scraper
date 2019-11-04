@@ -11,6 +11,7 @@ $.getJSON("/articles", function(data) {
 
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function() {
+  console.log("that tickled")
   // Empty the notes from the note section
   $("#notes").empty();
   // Save the id from the p tag
@@ -43,6 +44,15 @@ $(document).on("click", "p", function() {
     });
 });
 
+
+$(document).on("click", "#scrape-btn", function() {
+  console.log("clicked")
+  $.ajax({
+    method: "GET",
+    url: "/scrape"
+    })
+  });
+
 // When you click the savenote button
 $(document).on("click", "#savenote", function() {
   // Grab the id associated with the article from the submit button
@@ -70,4 +80,17 @@ $(document).on("click", "#savenote", function() {
   // Also, remove the values entered in the input and textarea for note entry
   $("#titleinput").val("");
   $("#bodyinput").val("");
+});
+
+$("#scrape-btn").on("click", function() {
+  console.log("scrape clicked")
+  event.preventDefault();
+  $.ajax({
+      url: "/scrape",
+      method: "GET"
+  }).then(function() {
+      setTimeout(function() {
+          location.reload();
+      }, 500);
+  });
 });
