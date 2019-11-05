@@ -11,6 +11,12 @@ module.exports = function (app) {
     app.get("/home", function(req, res) {
         db.Article.find({}).populate("note")
         .then(function(dbArticle) {
+            console.log(dbArticle)
+            const currentArticles = [];
+            for(let i=0; i < 20; i++){
+                currentArticles.push(dbArticle[i])
+            }
+            console.log("test: " + currentArticles)
             if(dbArticle){
                 res.render('home', {
                     dbArticle: dbArticle
@@ -24,39 +30,57 @@ module.exports = function (app) {
         });
     });
 
-        // First, we grab the body of the html with axios
-        app.get("/scrape", function(req, res)  {    
-            axios.get("http://www.echojs.com/").then(function(response) {
-            // Then, we load that into cheerio and save it to $ for a shorthand selector
-            var $ = cheerio.load(response.data);
-          
-            // Now, we grab every h2 within an article tag, and do the following:
-            $("article h2").each(function(i, element) {
-            // Save an empty result object
-            var result = {};
-          
-            // Add the text and href of every link, and save them as properties of the result object
-            result.title = $(this)
-                .children("a")
-                .text();
-            result.link = $(this)
-                .children("a")
-                .attr("href");
-          
-            // Create a new Article using the `result` object built from scraping
-            db.Article.create(result)
-                .then(function(dbArticle) {
-                // View the added result in the console
-                console.log(dbArticle);
+    app.put("/clear", function(req, res) {
+        db.Article.remove({})
+        .then(db.Note.remove({}))
+        .then(function() {
+            window.location.reload();
+        });
+    });
+
+        app.get("/scrape", function(req, res)  { 
+            console.log("scrapin")   
+            axios.get("https://www.reddit.com/r/Futurology/").then(function(response) {
+                var $ = cheerio.load(response.data);
+                var search = [];
+                var inDB = [];
+                db.Article.find({})
+                .then(function(resp) {
+                    resp.each(function(article) {
+                        inDB.push(article)
+                    })
                 })
-                .catch(function(err) {
-                // If an error occurred, log it
-                console.log(err);
-                });
-            })
+                .then(
+                    $(".SQnoC3ObvgnGjWt90zD9Z _2INHSNB8V5eaWp4P0rY_mE").each(function(i, element) {
+                        var result = {}
+                        result.headline = $(this)
+                            .children("h3")
+                            .text();
+                    // $("._eYtD2XCVieq6emjKBH3m")
+                        result.link = $(this)
+                            .children("a")
+                            .attr("href");
+                        if(result=> inDB.indexOf(result) = 0){
+                        search.push(result);
+                        };
+                    })
+                    .then(search.each(function(i, element) {
+                        db.Article.create(element)
+                        .then(function(element) {
+                        console.log(element);
+                        })
+                        .catch(function(err) {
+                        console.log(err);
+                        });
+                    })
+                    )
+                )
+            });
             res.send("Scrape Complete");
-          });
-          });
+        });
+
+
+
         app.get("/articles", function(req, res) {
             // Grab every document in the Articles collection
             db.Article.find({})

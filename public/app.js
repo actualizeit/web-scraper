@@ -1,13 +1,9 @@
+
+
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
-  console.log("getstuff");
-  // For each one
-  for (var i = 0; i < data.length; i++) {
-    // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
-  }
+  currentArticles = data
 });
-
 
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function() {
@@ -46,12 +42,20 @@ $(document).on("click", "p", function() {
 
 
 $(document).on("click", "#scrape-btn", function() {
-  console.log("clicked")
+  console.log("clicked-scrape")
   $.ajax({
     method: "GET",
     url: "/scrape"
     })
   });
+
+  $(document).on("click", "#clear-btn", function() {
+    console.log("clicked-clear")
+    $.ajax({
+      method: "PUT",
+      url: "/clear"
+      })
+    });
 
 // When you click the savenote button
 $(document).on("click", "#savenote", function() {
