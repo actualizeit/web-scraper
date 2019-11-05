@@ -2,6 +2,8 @@ var db = require("../models");
 var axios = require("axios");
 var cheerio = require("cheerio");
 
+var util = require('util')
+
 module.exports = function (app) {
     
     app.get("/", function(req, res)  {
@@ -42,43 +44,39 @@ module.exports = function (app) {
             console.log("scrapin")   
             axios.get("https://www.reddit.com/r/Futurology/").then(function(response) {
                 var $ = cheerio.load(response.data);
-                var search = [];
-                var inDB = [];
-                db.Article.find({})
-                .then(function(resp) {
-                    resp.each(function(article) {
-                        inDB.push(article)
+                var DBCheck = 0;
+                $("._2INHSNB8V5eaWp4P0rY_mE").each(function(i, element) {
+                    var result = {}
+                    result.headline = $(element).text()
+                    result.link = $(element).children().attr("href");
+                    console.log(result)
+                    db.Article.find({})
+                    .then(function(data){
+                        console.log(data)
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].headline !== result.headline) {
+                                DBCheck++
+                            }
+                        }
+                        if(DBCheck === data.length){
+                            db.Article.create(element)
+                            .then(function(element) {
+                                console.log(element);
+                            })
+                            .catch(function(err) {
+                                console.log(err);
+                            });
+                            DBCheck = 0;
+                        }else{
+                            DBCheck = 0;
+                        }
                     })
                 })
-                .then(
-                    $(".SQnoC3ObvgnGjWt90zD9Z _2INHSNB8V5eaWp4P0rY_mE").each(function(i, element) {
-                        var result = {}
-                        result.headline = $(this)
-                            .children("h3")
-                            .text();
-                    // $("._eYtD2XCVieq6emjKBH3m")
-                        result.link = $(this)
-                            .children("a")
-                            .attr("href");
-                        if(result=> inDB.indexOf(result) = 0){
-                        search.push(result);
-                        };
-                    })
-                    .then(search.each(function(i, element) {
-                        db.Article.create(element)
-                        .then(function(element) {
-                        console.log(element);
-                        })
-                        .catch(function(err) {
-                        console.log(err);
-                        });
-                    })
-                    )
-                )
-            });
-            res.send("Scrape Complete");
-        });
+                console.log("Scrape Complete");
+            })
+        })
 
+                // $("._eYtD2XCVieq6emjKBH3m")
 
 
         app.get("/articles", function(req, res) {
