@@ -46,9 +46,10 @@ module.exports = function (app) {
                 var $ = cheerio.load(response.data);
                 var DBCheck = 0;
                 $("._2INHSNB8V5eaWp4P0rY_mE").each(function(i, element) {
-                    var result = {}
-                    result.headline = $(element).text()
-                    result.link = $(element).children().attr("href");
+                    
+                    var title = $(element).text()
+                    var link = $(element).attr("href");
+                    var result = {title, link}
                     console.log(result)
                     db.Article.find({})
                     .then(function(data){
@@ -58,10 +59,12 @@ module.exports = function (app) {
                                 DBCheck++
                             }
                         }
+                        console.log(DBCheck)
                         if(DBCheck === data.length){
-                            db.Article.create(element)
-                            .then(function(element) {
-                                console.log(element);
+                            console.log("passed")
+                            db.Article.create(result)
+                            .then(function(dbEntry) {
+                                console.log(dbEntry);
                             })
                             .catch(function(err) {
                                 console.log(err);

@@ -30,9 +30,9 @@ con.once('open', function callback () {
 
 
 
-app.get('/', function (req, res) {
-  res.render('home');
-});
+// app.get('/', function (req, res) {
+//   res.render('home');
+// });
 
 
 
