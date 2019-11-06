@@ -56,6 +56,12 @@
                     {{#if saved}}
                       <button type="button" class="btn btn-secondary saved">Saved</button>
                     {{/if}}
+                    {{#unless note}}
+                      <button type="button" class="btn btn-secondary notez" data-id={{this._id}}>Add Note</button>
+                    {{/unless}}
+                    {{#if note}}
+                      <button type="button" class="btn btn-secondary notez">View and Add Notes</button>
+                    {{/if}}
                 </div>
                 </div>        
             </div>
@@ -65,7 +71,7 @@
     {{/each}}
 </div>
 <br>
-
+{{> modal/note-block}}
     <div id="wrapper">
       <div id="articles"></div>
       <div id="notes"></div>

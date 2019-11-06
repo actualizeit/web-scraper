@@ -6,7 +6,7 @@ $.getJSON("/articles", function(data) {
 });
 
 // Whenever someone clicks a p tag
-$(document).on("click", "p", function() {
+$(document).on("click", ".notez", function() {
   console.log("that tickled")
   // Empty the notes from the note section
   $("#notes").empty();
