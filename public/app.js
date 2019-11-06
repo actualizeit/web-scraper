@@ -30,40 +30,47 @@ $(document).on("click", "#saveNote", function() {
   // $(".modal-footer").append("<button type='button' class='btn btn-primary' id='saveNote' data-id='" + $(this).attr("data-id") + "'>Save Note</button>");
   // $(".modal-footer").append("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>");
   var id = $(this).attr("data-id");
+  var noteTitle = $('#noteTitle').val().trim()
+  var noteBody = $('#noteBody').val().trim()
+  console.log("title: " + noteTitle + " - body: " + noteBody);
   $.ajax({
     url: "/notes/" + id,
-    method: "POST"
+    method: "POST",
+    data: {
+      noteTitle,
+      noteBody
+    }
 })
 })
 
 
-$("body").on("click", ".add-btn", function() {
-  event.preventDefault();
-  var id = $(this).attr("data-articleId");
-  var titleId = $(this).attr("data-title");
-  var bodyId = $(this).attr("data-body");
+// $("body").on("click", ".add-btn", function() {
+//   event.preventDefault();
+//   var id = $(this).attr("data-articleId");
+//   var titleId = $(this).attr("data-title");
+//   var bodyId = $(this).attr("data-body");
 
-  var title = $(titleId).val().trim();
-  var body = $(bodyId).val().trim();
+//   var title = $(titleId).val().trim();
+//   var body = $(bodyId).val().trim();
 
-  console.log("id:" + id);
-  console.log("titleId" + titleId);
-  console.log("bodyId" + bodyId);
-  console.log("title" + title);
-  console.log("body" + body);
+//   console.log("id:" + id);
+//   console.log("titleId" + titleId);
+//   console.log("bodyId" + bodyId);
+//   console.log("title" + title);
+//   console.log("body" + body);
 
-  $.ajax({
-      url: "/articles/notes/" + id,
-      method: "POST",
-      data: {
-          title,
-          body
-      }
-  }).then(function(edited) {
-      console.log(edited);
-      location.reload();
-  });
-});
+//   $.ajax({
+//       url: "/articles/notes/" + id,
+//       method: "POST",
+//       data: {
+//           title,
+//           body
+//       }
+//   }).then(function(edited) {
+//       console.log(edited);
+//       location.reload();
+//   });
+// });
 
 
 

@@ -138,10 +138,11 @@ module.exports = function (app) {
         });
 
         app.post("/notes/:id", function(req, res) {
-            var id = req.params.id;
-            var noteTitle = $('#noteTitle').val().trim()
-            var noteBody = $('#noteBody').val().trim()
-            db.Note.create({title: noteTitle}, {body: noteBody}, {article: id})
+            var title = req.body.noteTitle
+            var body = req.body.noteBody
+            var article = req.params.id;
+            var note = {title, body, article}
+            db.Note.create(note)
             .then(function(note) {
                 console.log(note);
             })
