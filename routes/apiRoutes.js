@@ -150,4 +150,18 @@ module.exports = function (app) {
                 res.end(err);
             });
         });
+
+        app.get("/notes/:id", function(req, res) {
+            console.log("/notes called")
+            var articleID = req.params.id;
+            db.Note.find({article: articleID}).sort({created: -1}).limit(20)
+            .then(function(notes) {
+                res.render("note-block", {
+                    notes: notes
+                });
+            })
+            .catch(function(err) {
+                res.end(err);
+            });
+        });
 };

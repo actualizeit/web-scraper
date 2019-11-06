@@ -8,16 +8,27 @@
         </button>
       </div>
       <div class="modal-body">
-<form>
-  <div class="form-group">
-    <label for="formGroupExampleInput">Note Title</label>
-    <input type="text" class="form-control" id="noteTitle" placeholder="Example input">
-  </div>
-  <div class="form-group">
-    <label for="formGroupExampleInput2">Note Body</label>
-    <input type="text" class="form-control" id="noteBody" placeholder="Another input">
-  </div>
-</form>
+        <form>
+          <div class="form-group">
+            <label for="formGroupExampleInput">Note Title</label>
+            <input type="text" class="form-control" id="noteTitle" placeholder="Example input">
+          </div>
+          <div class="form-group">
+            <label for="formGroupExampleInput2">Note Body</label>
+            <input type="text" class="form-control" id="noteBody" placeholder="Another input">
+          </div>
+        </form>
+        <div class="list-group"></div>
+            {{#each notes}}
+  <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{this.title}}</h5>
+    </div>
+    <p class="mb-1">{{this.body}}</p>
+  </a>
+      {{/each}}
+</div>
+
       </div>
       <div class="modal-footer">
         {{!-- <button type="button" class="btn btn-primary" id="saveNote">Save Note</button>

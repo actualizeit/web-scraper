@@ -15,6 +15,11 @@ $(document).on('show.bs.modal','#note-modal', function (e) {
   var articleID = e.relatedTarget.dataset.id;
   $(".modal-footer").append("<button type='button' class='btn btn-primary' id='saveNote' data-id='" + articleID + "'>Save Note</button>");
   $(".modal-footer").append("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>");
+  $.ajax({
+    method: "GET",
+    url: "/notes/" + articleID
+  })
+  console.log("weird")
 });
 
 $(document).on('hidden.bs.modal','#note-modal', function () {
