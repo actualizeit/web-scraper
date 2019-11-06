@@ -32,6 +32,8 @@ module.exports = function (app) {
         });
     });
 
+
+
     app.put("/clear", function(req, res) {
         db.Article.remove({})
         .then(db.Note.remove({}))
@@ -46,7 +48,6 @@ module.exports = function (app) {
                 var $ = cheerio.load(response.data);
                 var DBCheck = 0;
                 $("._2INHSNB8V5eaWp4P0rY_mE").each(function(i, element) {
-                    
                     var title = $(element).text()
                     var link = $(element).attr("href");
                     var result = {title, link}
@@ -109,4 +110,30 @@ module.exports = function (app) {
           });
       
       });
+      app.get("/saved/", function(req, res) {
+        db.Article.find({saved: true}).sort({created: -1}).limit(20).populate("note")
+        .then(function(dbArticle) {
+            res.render("saved", {
+                title: "Stuff you thought was cool I guess",
+                dbArticle: dbArticle
+            });
+        })
+        .catch(function(error) {
+            if(error) {
+                console.log(error);
+            }
+        });
+    });
+
+        //add or remove an article from your saved articles 
+        app.put("/article/:id", function(req, res) {
+            var id = req.params.id;
+            db.Article.findOneAndUpdate({_id: id}, {$set: {saved: true}})
+            .then(function(art) {
+                res.json(art);
+            })
+            .catch(function(err) {
+                res.end(err);
+            });
+        });
 };

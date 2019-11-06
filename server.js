@@ -5,6 +5,7 @@ var exphbs  = require('express-handlebars');
 var axios = require("axios");
 var db = require("./models");
 var cheerio = require("cheerio");
+var helpers = require('handlebars-helpers')();
 
 var PORT = process.env.PORT || 3001;
 var app = express();

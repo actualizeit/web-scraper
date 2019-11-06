@@ -98,3 +98,21 @@ $("#scrape-btn").on("click", function() {
       }, 500);
   });
 });
+
+$(document).on("click", ".savebtn", function() {
+  event.preventDefault();
+  console.log("yup")
+  var articleId = $(this).attr("data-id");
+  var queryUrl = "/article/" + articleId;
+  $.ajax({
+      url: queryUrl,
+      method: "PUT",
+      data: {
+          saved: true
+      }
+  }).then(function(response) {
+      location.reload();
+  });
+
+
+});
