@@ -1,12 +1,74 @@
+// const $noteBtn = $('#notez');
+// $noteBtn.on('click');
 
+// $(document).on("click", "#notez", function() {
+//   console.log("that tickled")
+// });
 
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
   currentArticles = data
 });
 
+$(document).on('show.bs.modal','#note-modal', function (e) {
+  console.log("modal open")
+  var articleID = e.relatedTarget.dataset.id;
+  $(".modal-footer").append("<button type='button' class='btn btn-primary' id='saveNote' data-id='" + articleID + "'>Save Note</button>");
+  $(".modal-footer").append("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>");
+});
+
+$(document).on('hidden.bs.modal','#note-modal', function () {
+  console.log("modal closed")
+  $(".modal-footer").empty()
+});
+
+
+
+
+$(document).on("click", "#saveNote", function() {
+  console.log("yeahboi")
+  // $(".modal-footer").append("<button type='button' class='btn btn-primary' id='saveNote' data-id='" + $(this).attr("data-id") + "'>Save Note</button>");
+  // $(".modal-footer").append("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>");
+  var id = $(this).attr("data-id");
+  $.ajax({
+    url: "/notes/" + id,
+    method: "POST"
+})
+})
+
+
+$("body").on("click", ".add-btn", function() {
+  event.preventDefault();
+  var id = $(this).attr("data-articleId");
+  var titleId = $(this).attr("data-title");
+  var bodyId = $(this).attr("data-body");
+
+  var title = $(titleId).val().trim();
+  var body = $(bodyId).val().trim();
+
+  console.log("id:" + id);
+  console.log("titleId" + titleId);
+  console.log("bodyId" + bodyId);
+  console.log("title" + title);
+  console.log("body" + body);
+
+  $.ajax({
+      url: "/articles/notes/" + id,
+      method: "POST",
+      data: {
+          title,
+          body
+      }
+  }).then(function(edited) {
+      console.log(edited);
+      location.reload();
+  });
+});
+
+
+
 // Whenever someone clicks a p tag
-$(document).on("click", ".notez", function() {
+$(document).on("click", "#notez", function() {
   console.log("that tickled")
   // Empty the notes from the note section
   $("#notes").empty();

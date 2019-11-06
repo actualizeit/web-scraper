@@ -57,10 +57,10 @@
                       <button type="button" class="btn btn-secondary saved">Saved</button>
                     {{/if}}
                     {{#unless note}}
-                      <button type="button" class="btn btn-secondary notez" data-id={{this._id}}>Add Note</button>
+                      <button type="button" class="btn btn-secondary" id="notez" data-id={{this._id}} data-toggle="modal" data-target="#note-modal">Add Note</button>
                     {{/unless}}
                     {{#if note}}
-                      <button type="button" class="btn btn-secondary notez">View and Add Notes</button>
+                      <button type="button" class="btn btn-secondary" id="notez" data-id={{this._id}} data-toggle="modal" data-target="#note-modal">View and Add Notes</button>
                     {{/if}}
                 </div>
                 </div>
@@ -72,8 +72,3 @@
 </div>
 <br>
 {{> modal/note-block}}
-    <div id="wrapper">
-      <div id="articles"></div>
-      <div id="notes"></div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>

@@ -136,4 +136,17 @@ module.exports = function (app) {
                 res.end(err);
             });
         });
+
+        app.post("/notes/:id", function(req, res) {
+            var id = req.params.id;
+            var noteTitle = $('#noteTitle').val().trim()
+            var noteBody = $('#noteBody').val().trim()
+            db.Note.create({title: noteTitle}, {body: noteBody}, {article: id})
+            .then(function(note) {
+                console.log(note);
+            })
+            .catch(function(err) {
+                res.end(err);
+            });
+        });
 };
