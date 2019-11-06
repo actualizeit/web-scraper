@@ -6,7 +6,7 @@ var axios = require("axios");
 var db = require("./models");
 var cheerio = require("cheerio");
 
-var PORT = 3001;
+var PORT = process.env.PORT || 3001;
 var app = express();
 
 
