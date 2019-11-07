@@ -11,14 +11,14 @@ module.exports = function (app) {
     });
 
     app.get("/home", function(req, res) {
-        db.Article.find({}).populate("note")
+        db.Article.find({})
         .then(function(dbArticle) {
-            console.log(dbArticle)
+            // console.log(dbArticle)
             const currentArticles = [];
             for(let i=0; i < 20; i++){
                 currentArticles.push(dbArticle[i])
             }
-            console.log("test: " + currentArticles)
+            // console.log("test: " + currentArticles)
             if(dbArticle){
                 res.render('home', {
                     dbArticle: dbArticle
@@ -34,16 +34,35 @@ module.exports = function (app) {
 
     app.put("/clearArticles", function(req, res) {
         db.Article.remove({})
-        .then(function(){
-            location.reload();
+        .then(function(resp){
+            res.json(resp)
         });
     });
 
     app.put("/clearNotes", function(req, res) {
-        console.log("clear notes hit")
         db.Note.remove({})
-        .then(function(){
-            location.reload();
+        .then(function(resp){
+            res.json(resp)
+        });
+    });
+
+    app.put("/deleteArticle/:id", function(req, res) {
+        console.log("id: " + req.params.id)
+        db.Article.remove({_id: req.params.id})
+        .then(function(resp){
+            res.json(resp)
+        });
+        db.Note.deleteMany({article: req.params.id})
+        .then(function(resp){
+            res.json(resp)
+        });
+    });
+
+    app.put("/deleteNote/:id", function(req, res) {
+        console.log("id: " + req.params.id)
+        db.Note.remove({_id: req.params.id})
+        .then(function(resp){
+            res.json(resp)
         });
     });
 
@@ -56,21 +75,21 @@ module.exports = function (app) {
                 var title = $(element).text()
                 var link = $(element).attr("href");
                 var result = {title, link}
-                console.log(result)
+                // console.log(result)
                 db.Article.find({})
                 .then(function(data){
-                    console.log(data)
+                    // console.log(data)
                     for (var i = 0; i < data.length; i++) {
                         if (data[i].headline !== result.headline) {
                             DBCheck++
                         }
                     }
-                    console.log(DBCheck)
+                    // console.log(DBCheck)
                     if(DBCheck === data.length){
                         console.log("passed")
                         db.Article.create(result)
                         .then(function(dbEntry) {
-                            console.log(dbEntry);
+                            // console.log(dbEntry);
                         })
                         .catch(function(err) {
                             console.log(err);
@@ -81,8 +100,7 @@ module.exports = function (app) {
                     }
                 })
             })
-            console.log("Scrape Complete");
-        })
+        }).then(res.json("Scrape Complete"))
     })
 
     app.get("/articles", function(req, res) {
@@ -114,7 +132,7 @@ module.exports = function (app) {
     });
 
     app.get("/saved/", function(req, res) {
-    db.Article.find({saved: true}).sort({created: -1}).limit(20).populate("note")
+    db.Article.find({saved: true}).sort({created: -1}).limit(20)
     .then(function(dbArticle) {
         res.render("saved", {
             title: "Stuff you thought was cool I guess",
@@ -128,11 +146,22 @@ module.exports = function (app) {
     });
     });
 
-    app.put("/article/:id", function(req, res) {
+    app.put("/articleSaved/:id", function(req, res) {
         var id = req.params.id;
-        db.Article.findOneAndUpdate({_id: id}, {$set: {saved: true}})
+        db.Article.findOneAndUpdate({_id: id}, {saved: true})
         .then(function(art) {
             res.json(art);
+        })
+        .catch(function(err) {
+            res.end(err);
+        });
+    });
+    
+    app.put("/articleNoted/:id", function(req, res) {
+        var id = req.params.id;
+        db.Article.findOneAndUpdate({_id: id}, {note: true})
+        .then(function(note) {
+            res.json(note);
         })
         .catch(function(err) {
             res.end(err);

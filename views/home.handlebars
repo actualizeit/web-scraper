@@ -42,7 +42,7 @@
                         <a target="_blank" href={{append 'http://www.reddit.com' this.link}}>{{this.title}}</a>
                     </h5>
                     {{#unless saved}}
-                      <button type="button" class="btn btn-secondary savebtn" data-id={{this._id}}>Save</button>
+                      <button type="button" class="btn btn-secondary saveArticle" data-id={{this._id}}>Save</button>
                     {{/unless}}
                     {{#if saved}}
                       <button type="button" class="btn btn-secondary saved">Saved</button>
@@ -53,6 +53,7 @@
                     {{#if note}}
                       <button type="button" class="btn btn-secondary" id="addNote" data-id={{this._id}}>View and Add Notes</button>
                     {{/if}}
+                    <button type="button" class="btn btn-secondary" id="deleteArticle" data-id={{this._id}}>Delete this Fake News!</button>
                 </div>
                 </div>        
             </div>
