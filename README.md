@@ -25,7 +25,7 @@ Try stuff, go wild. Let me know what happens.
 * [VSCode](https://code.visualstudio.com/) - Makes my words different colors and looks impressive to noncoders. 10/10
 * [JavaScript](https://www.javascript.com/) - I too hate semicolons
 * [node](https://nodejs.org/en/) - I use it like Frank’s Red Hot
-* [express](https://www.npmjs.com/package/express) - Where do you think this like goes?
+* [express](https://www.npmjs.com/package/express) - Where do you think this link goes?
 * [mongoose](https://mongoosejs.com/) - Brings your remote information through a series of tubes to your terminal
 * [cheerio](https://www.npmjs.com/package/cheerio) - Prolly the most cheerful addon I’ve used
 * [express-handlebars](https://www.npmjs.com/package/express-handlebars) - Riding in the express lane without handlebars is a fool’s errand
