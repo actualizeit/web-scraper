@@ -159,6 +159,7 @@ module.exports = function (app) {
                 // .sort({created: -1}).limit(20)
         db.Note.find({article: articleID})
         .then(function(notes) {
+            console.log(notes);
             res.json(notes);
         })
         .catch(function(err) {

@@ -12,7 +12,8 @@
 
 $(document).on('hidden.bs.modal','#note-modal', function () {
   console.log("modal closed")
-  $(".modal-footer").empty()
+  $(".modal-buttons").empty()
+  $("#notes-target").empty()
   $("#noteTitle").val("")
   $("#noteBody").val("")
 });
