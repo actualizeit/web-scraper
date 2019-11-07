@@ -48,10 +48,10 @@
                       <button type="button" class="btn btn-secondary saved">Saved</button>
                     {{/if}}
                     {{#unless note}}
-                      <button type="button" class="btn btn-secondary" id="notez" data-id={{this._id}} data-toggle="modal" data-target="#note-modal">Add Note</button>
+                      <button type="button" class="btn btn-secondary" id="addNote" data-id={{this._id}} data-toggle="modal" data-target="#note-modal">Add Note</button>
                     {{/unless}}
                     {{#if note}}
-                      <button type="button" class="btn btn-secondary" id="notez" data-id={{this._id}} data-toggle="modal" data-target="#note-modal">View and Add Notes</button>
+                      <button type="button" class="btn btn-secondary" id="addNote" data-id={{this._id}} data-toggle="modal" data-target="#note-modal">View and Add Notes</button>
                     {{/if}}
                 </div>
                 </div>        
