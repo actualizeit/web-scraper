@@ -1,20 +1,20 @@
 
-$.getJSON("/articles", function(data) {
-  currentArticles = data
-});
+// $.getJSON("/articles", function(data) {
+//   currentArticles = data
+// });
 
-$(document).on('show.bs.modal','#note-modal', function (e) {
-  console.log("modal open")
-  var articleID = e.relatedTarget.dataset.id;
-  $(".modal-footer").append("<button type='button' class='btn btn-primary' id='saveNote' data-id='" + articleID + "'>Save Note</button>");
-  $(".modal-footer").append("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>");
-});
+// $(document).on('show.bs.modal','#note-modal', function (e) {
+//   console.log("modal open")
+//   var articleID = e.relatedTarget.dataset.id;
+//   $(".modal-footer").append("<button type='button' class='btn btn-primary' id='saveNote' data-id='" + articleID + "'>Save Note</button>");
+//   $(".modal-footer").append("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>");
+// });
 
 $(document).on('hidden.bs.modal','#note-modal', function () {
   console.log("modal closed")
   $(".modal-footer").empty()
-  $("#noteTitle").empty()
-  $("#noteBody").empty()
+  $("#noteTitle").val("")
+  $("#noteBody").val("")
 });
 
 $(document).on("click", "#saveNote", function() {
@@ -37,16 +37,32 @@ $(document).on("click", "#saveNote", function() {
 
 $(document).on("click", "#addNote", function() {
   var thisId = $(this).attr("data-id");
+  console.log(thisId);
   $.ajax({
     method: "GET",
     url: "/notes/" + thisId
-  }).then(
-    $('#note-modal').modal('show')
-  )
+  }).then(function(data){
+    console.log(data);
+    //iterate all notes into modal
+    for(let i=0; i < data.length; i++){
+      $("#notes-target").append(
+      "<a href='#' class='list-group-item list-group-item-action flex-column align-items-start active'>" +
+      "<div class='d-flex w-100 justify-content-between'>" +
+      "<h5 class='mb-1'>" + data[i].title + "</h5></div>" +
+      "<p class='mb-1'>" + data[i].body + "</p></a>"
+      )
+    }
+  })
   $.ajax({
     method: "GET",
     url: "/articles/" + thisId
-  });
+  }).then(function(data){
+    console.log(data);
+    //insert article title into modal
+  $("#articleNotes").text(data.title);
+  }).then($('#note-modal').modal('show'));
+  $(".modal-footer").append("<button type='button' class='btn btn-primary' id='saveNote' data-id='" + thisId + "'>Save Note</button>");
+  $(".modal-footer").append("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>");
 });
 
 $(document).on("click", "#scrape-btn", function() {

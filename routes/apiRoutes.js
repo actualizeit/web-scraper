@@ -102,7 +102,7 @@ module.exports = function (app) {
         // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
         db.Article.findOne({ _id: req.params.id })
         // ..and populate all of the notes associated with it
-        .populate("note")
+        // .populate("note")
         .then(function(dbArticle) {
             // If we were able to successfully find an Article with the given id, send it back to the client
             res.json(dbArticle);
@@ -159,7 +159,7 @@ module.exports = function (app) {
                 // .sort({created: -1}).limit(20)
         db.Note.find({article: articleID})
         .then(function(notes) {
-            console.log(notes);
+            res.json(notes);
         })
         .catch(function(err) {
             res.end(err);
