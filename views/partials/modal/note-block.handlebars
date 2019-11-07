@@ -2,7 +2,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Article Notes</h5>
+        <h5 class="modal-title" id="articleNotes"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -10,23 +10,19 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="formGroupExampleInput">Note Title</label>
+            <label for="formGroupExampleInput">Add New Note Title</label>
             <input type="text" class="form-control" id="noteTitle" placeholder="Sick Title Bro">
           </div>
           <div class="form-group">
-            <label for="formGroupExampleInput2">Note Body</label>
+            <label for="formGroupExampleInput2">Add New Note Body</label>
             <input type="text" class="form-control" id="noteBody" placeholder="Nice Bod!">
           </div>
+          <div class="modal-buttons text-right"></div>
         </form>
+      </div>
+      <div class="modal-body">
+        <h5 class="modal-title">Old News Notes</h5>
         <div class="list-group" id="notes-target"></div>
-          {{#each notes}}
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{this.title}}</h5>
-              </div>
-              <p class="mb-1">{{this.body}}</p>
-            </a>
-          {{/each}}
       </div>
       <div class="modal-footer">
         {{!-- <button type="button" class="btn btn-primary" id="saveNote">Save Note</button>

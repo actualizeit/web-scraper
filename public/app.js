@@ -46,10 +46,10 @@ $(document).on("click", "#addNote", function() {
     //iterate all notes into modal
     for(let i=0; i < data.length; i++){
       $("#notes-target").append(
-      "<a href='#' class='list-group-item list-group-item-action flex-column align-items-start active'>" +
+      "<div class='list-group-item'>" +
       "<div class='d-flex w-100 justify-content-between'>" +
       "<h5 class='mb-1'>" + data[i].title + "</h5></div>" +
-      "<p class='mb-1'>" + data[i].body + "</p></a>"
+      "<p class='mb-1'>" + data[i].body + "</p></div>"
       )
     }
   })
@@ -59,10 +59,10 @@ $(document).on("click", "#addNote", function() {
   }).then(function(data){
     console.log(data);
     //insert article title into modal
-  $("#articleNotes").text(data.title);
+  $("#articleNotes").text("Add and View Notes for the Article: ''" + data.title + "''");
   }).then($('#note-modal').modal('show'));
-  $(".modal-footer").append("<button type='button' class='btn btn-primary' id='saveNote' data-id='" + thisId + "'>Save Note</button>");
-  $(".modal-footer").append("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>");
+  $(".modal-buttons").append("<button type='button' class='btn btn-primary m-1 mb-3' id='saveNote' data-id='" + thisId + "'>Save Note</button>");
+  $(".modal-buttons").append("<button type='button' class='btn btn-secondary m-1 mb-3' data-dismiss='modal'>Close</button>");
 });
 
 $(document).on("click", "#scrape-btn", function() {
